@@ -21,11 +21,7 @@ int main(void)
     while (finished)
     {
         printf("\n");
-        while (v[(middle + input1  + counter) % n][(middle - input1- counter ) % n] == 0)
-        {
-            v[(middle + input1 + counter) % n ][(middle - input1 - counter) % n] = input1++;
-            counter++;
-        }
+       
 
         for (i = 0; i < n; i++)
         {
@@ -33,9 +29,11 @@ int main(void)
             {
 
                 printf("%d", v[i][j]);
+                finished = 0;
             }
             printf("\n");
         }
+        
     }
 
     return 0;
