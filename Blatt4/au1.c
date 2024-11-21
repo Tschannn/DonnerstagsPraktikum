@@ -10,51 +10,50 @@ struct Mensch
 {
     char name[LAENGE];
     struct Mensch *next;
-} *mokel, *merke = NULL;
+} *mensch, *pointer = NULL;
 
 int main(int argc, char *argv[])
 {
     char eingabe[LAENGE];
+    int i;
 
     while (scanf("%s", eingabe) != EOF)
     {
-        mokel = malloc(sizeof(struct Mensch));
-        if (!mokel)
+        mensch = malloc(sizeof(struct Mensch));
+        if (!mensch)
             return 1;
 
-        strcpy(mokel->name, eingabe);
+        strcpy(mensch->name, eingabe);
 
         /*Hier wird der erste Mensch eingesetzt*/
-        if (merke == NULL)
+        if (pointer == NULL)
         {
-            merke = mokel;
-            merke->next = merke;
+            pointer = mensch;
+            pointer->next = pointer;
         }
         else
         {
-            merke->next = mokel;
-            mokel->next = merke;
+            mensch->next = pointer->next;
+            pointer->next = mensch;
         }
-        merke = mokel;
+        pointer = mensch;
     }
-    if (mokel != NULL)
+
+    if (mensch != NULL)
     {
         argc--;
-        do
+     do
         {
-            mokel = merke->next;
-            printf("%s\n",mokel->name);
-
-            merke->next = merke->next;
-            free(mokel);
-            argc--;
-        } while (merke != mokel && argc > 0 );
-        while (merke != mokel)
-        {
-            mokel = merke->next;
-            merke->next = mokel->next;
-            free(mokel);
-        }
+            mensch = pointer->next;
+            for ( i = 1; i < argc; i++)
+            {
+               pointer = mensch;
+               mensch = mensch->next;
+            }
+            printf("%s\n",mensch->name);
+            pointer->next = mensch->next;
+            free(mensch);    
+        }while (pointer != mensch);
     }
     else
     {
