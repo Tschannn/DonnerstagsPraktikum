@@ -8,10 +8,19 @@ int main(int argc, char *argv[])
     char cba[] = {"wgsnqcdvmeyluzoabhrjfkxipt"};
     int i;
 
-    printf("Geben sie ihren Satz ein Herr Plotzenhotz: \n");
 
+    if(!strcmp(argv[2], "decrypt") || !strcmp(argv[2], "encrypt")){
+        printf("Geben sie entweder 'encrypt' oder 'decrypt' ein");
+    }
+
+    printf("Geben sie ihren Satz ein Herr Plotzenhotz: \n");
     while (scanf("%c", &input) != EOF)
     {
+        if (input == ' ')
+        {
+            printf(" ");
+            continue;
+        }
 
         if (strcmp(argv[1], "decrypt") == 0)
         {
@@ -29,11 +38,12 @@ int main(int argc, char *argv[])
             {
                 if (input == cba[i])
                 {
-                    printf("%c", abc[i]);
+                    printf(" %c", abc[i]);
                 }
             }
         }
-        else{
+        else
+        {
             printf("falsche Eingabe bra\n");
             break;
         }

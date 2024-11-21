@@ -37,24 +37,10 @@ int main(int argc, char *argv[])
         }
         merke = mokel;
     }
+    merke = merke->next;
     if (mokel != NULL)
     {
-        argc--;
-        do
-        {
-            mokel = merke->next;
-            printf("%s\n",mokel->name);
-
-            merke->next = merke->next;
-            free(mokel);
-            argc--;
-        } while (merke != mokel && argc > 0 );
-        while (merke != mokel)
-        {
-            mokel = merke->next;
-            merke->next = mokel->next;
-            free(mokel);
-        }
+       
     }
     else
     {

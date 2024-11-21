@@ -1,25 +1,31 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 void soundex(const char s[100], char res[])
 {
+
+    char *org[] = {"BFPV", "CGJKQSXZ", "DT", "L", "MN", "R"};
+    char sondex[] = {'1', '2', '3', '4', '5', '6'};
+    int index, i, j;
+    index = 1;
     res[0] = toupper(s[0]);
-    int index = 1,i,j;
 
-    char *s[] = {"BFPV", "CGJKQSXZ", "DT", "L", "MN", "R"};
-    char res[] = {'1', '2', '3', '4', '5', '6'};
-
-    for(i = 0; s[i] != "\0" && index <6;i++){
-        char c = toupper(s[i]);
+    for (i = 1; index < 6; i++)
+    {
         char ziffer = '\0';
-
-        for (j = 0; j < 6;j++)
+        if (strchr(org[i], s[i]) != NULL)
         {
-            if()
+            res[i] = sondex[i];
         }
-        
+        index++;
     }
-    res[6] = '\0';
+    while (index < 6)
+    {
+        res[index++] = '0';
+    }
+
+    res[index] = '\0';
 }
 
 int main(void)
@@ -28,10 +34,12 @@ int main(void)
     char eingabe[50];
     char res[7];
 
+    printf("Geben sie eine Zahl ein:\n");
+
     while (scanf("%c", eingabe) != EOF)
     {
         soundex(eingabe, res);
-        printf("%s\n", res);
+        printf("%s", res);
     }
     return 0;
 }
