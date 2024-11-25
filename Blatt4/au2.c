@@ -10,60 +10,67 @@ typedef struct Node
 
 void printList(nodep lst)
 {
-    while (lst->next != NULL)
+    nodep temp = lst;
+    while (temp != NULL)
     {
-        printf("%p\n", lst);
-        lst = lst->next;
+        printf("%s\n", temp->data);
+        temp = temp->next;
     }
+
 }
 
 nodep insertAt(nodep lst, int pos, char *inhalt)
 {
-    int i;
-
-    nodep newP;
-
-    newP = malloc(sizeof(struct Node));
-    if (!newP)
-    {
-        return 1;
-    }
+    nodep newP = malloc(sizeof(struct Node));
+    if (!newP) return lst;
 
     newP->data = inhalt;
+    newP->next = NULL;
+    newP->previous = NULL;
 
     if (lst == NULL)
     {
         lst = newP;
-        lst->next = NULL;
-        lst->previous = NULL;
     }
     else
     {
-        if (pos == -1)
-        {
-        }
+        nodep temp = lst;
         if (pos == 0)
         {
-            newP = lst->previous;
+            newP->next = lst;
+            lst->previous = newP;
+            lst = newP;
         }
-        for (i = 0; i < pos; i++)
+        else
         {
-            lst = lst->next;
-            if (i == pos)
+            int i;
+            for (i = 0; temp != NULL && i < pos - 1; i++)
             {
-                lst->data = inhalt;
+                temp = temp->next;
+            }
+            if (temp != NULL)
+            {
+                newP->next = temp->next;
+                if (temp->next != NULL)
+                    temp->next->previous = newP;
+                temp->next = newP;
+                newP->previous = temp;
             }
         }
     }
+
+    return lst;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-
     nodep Liste = NULL;
+    
 
-    insertAt(Liste, 0, "hallo mein name ist berhan");
-    printList(Liste);
+        char *eingabe = argv[1];
+        Liste = insertAt(Liste, 0, eingabe);
+        printList(Liste);
+    free(Liste);
 
     return 0;
 }
