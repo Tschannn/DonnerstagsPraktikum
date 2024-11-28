@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Node
 {
@@ -10,60 +11,134 @@ typedef struct Node
 
 void printList(nodep lst)
 {
-    while (lst->next != NULL)
+    if (lst == NULL)
     {
-        printf("%p\n", lst);
+        printf("Liste ist null\n");
+        return;
+    }
+    printf("PRINT LIST\n");
+    while (lst != NULL)
+    {
+        printf("Data pointer: %p\n", (void *)lst->data);
+        printf("Node Data: %s\n", lst->data);
         lst = lst->next;
     }
 }
 
-nodep insertAt(nodep lst, int pos, char *inhalt)
+nodep copyList(nodep lst)
 {
-    int i;
+    nodep tempNode = malloc(sizeof(struct Node));
+    if (!tempNode)
+        return lst;
 
-    nodep newP;
-
-    newP = malloc(sizeof(struct Node));
-    if (!newP)
+    while (lst != NULL)
     {
-        return 1;
+        tempNode->data = lst->data;
+        tempNode->next = lst->next;
+        tempNode->previous = lst->previous;
+        lst = lst->next;
     }
 
-    newP->data = inhalt;
+    return tempNode;
+}
 
-    if (lst == NULL)
+nodep deleteAt(nodep lst)
+{
+}
+
+void deletelist(nodep lst)
+{
+    nodep tempNode;
+    while (lst != NULL)
     {
-        lst = newP;
-        lst->next = NULL;
-        lst->previous = NULL;
-    }
-    else
-    {
-        if (pos == -1)
-        {
-        }
-        if (pos == 0)
-        {
-            newP = lst->previous;
-        }
-        for (i = 0; i < pos; i++)
-        {
-            lst = lst->next;
-            if (i == pos)
-            {
-                lst->data = inhalt;
-            }
-        }
+        tempNode = lst;
+        lst = lst->next;
+        
+        free(tempNode->data);
+        free(tempNode);
     }
 }
 
+
+
+nodep insertAt(nodep lst, int pos, char *inhalt)
+{
+    int i;
+    nodep newP = malloc(sizeof(struct Node));
+    if (!newP)
+    {
+        return lst;
+    }
+
+    newP->data = malloc(strlen(inhalt) + 1);
+    if (newP->data == NULL)
+    {
+        free(newP);
+        return lst;
+    }
+    strcpy(newP->data, inhalt);
+
+    newP->next = NULL;
+    newP->previous = NULL;
+
+    if (lst == NULL)
+    {
+        return newP;
+    }
+    else
+    {
+        if (pos == 0)
+        {
+            newP->next = lst;
+            lst->previous = newP;
+            return newP;
+        }
+        else
+        {
+            nodep current = lst;
+            for (i = 0; i < pos - 1 && current != NULL; i++)
+            {
+                current = current->next;
+            }
+
+            if (current == NULL)
+            {
+                printf("Position außerhalb der Liste\n");
+                free(newP->data);
+                free(newP);
+                return lst;
+            }
+            else
+            {
+                newP->next = current->next;
+                if (current->next != NULL)
+                {
+                    current->next->previous = newP;
+                }
+                current->next = newP;
+                newP->previous = current;
+            }
+        }
+    }
+
+    return lst;
+}
 int main(void)
 {
 
-    nodep Liste = NULL;
+    nodep list = NULL;
 
-    insertAt(Liste, 0, "hallo mein name ist berhan");
-    printList(Liste);
+    list = insertAt(list, 0, "First");
+    list = insertAt(list, 1, "Second");
+    list = insertAt(list, 2, "Third");
+    list = insertAt(list, 1, "Inserted at position 1");
+    printList(list);
+
+    deletelist(list);
+
+    printf("-----------------------------------------------------");
+
+    printList(list);
 
     return 0;
 }
