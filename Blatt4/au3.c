@@ -2,9 +2,9 @@
 #include <ctype.h>
 #include <string.h>
 
-int istBoese(char *eingabe,char *argv[]){
+int istBoese(char *eingabe,char *argv[],int argc){
     int i = 1;
-    while(i<18)
+    while(i<argc)
     {
         if(strcmp(eingabe,argv[i]) == 0) return strcmp(eingabe,argv[i]);
         else i++;
@@ -23,7 +23,7 @@ int main(int argc,char *argv[]){
 
     while (scanf("%s",eingabe) != EOF)
     {
-        if(istBoese(eingabe,argv) == 0){
+        if(istBoese(eingabe,argv,argc) == 0){
             i = 1;
             printf("%c",eingabe[0]);
             while (eingabe[i] != '\0')
