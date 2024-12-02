@@ -2,29 +2,40 @@
 #include <ctype.h>
 #include <string.h>
 
+int istBoese(char *eingabe,char *argv[],int argc){
+    int i = 1;
+    while(i<argc)
+    {
+        if(strcmp(eingabe,argv[i]) == 0) return strcmp(eingabe,argv[i]);
+        else i++;
+    }
+    return 1;
+}
 
 enum{MAXLAENGE =  200};
 
 int main(int argc,char *argv[]){
 
-    char *boseworte[MAXLAENGE];
-    int i;
     char eingabe[MAXLAENGE];
-
-        for ( i = 1; i < argc; i++)
-        {   
-            boseworte[i-1] = argv[i];
-        }
+    int i;
 
     printf("Geben sie den zu ändernden Text ein: \n");
 
     while (scanf("%s",eingabe) != EOF)
     {
-        if(strcmp(eingabe,*boseworte)){
-            printf("YA Kelb ");
+        if(istBoese(eingabe,argv,argc) == 0){
+            i = 1;
+            printf("%c",eingabe[0]);
+            while (eingabe[i] != '\0')
+            {
+                printf("*");
+                i++;
+            }        
+            printf(" ");
+        }
+        else{
+            printf("%s ",eingabe);
         }
     }
-    
-
     return 0;
 }
