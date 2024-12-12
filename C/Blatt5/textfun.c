@@ -33,6 +33,6 @@ struct Fundstelle find(const char *s){
 }
 
 int replaceAll(char *s){
-
+    
     return 0;
 }
