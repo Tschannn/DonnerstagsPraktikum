@@ -14,10 +14,11 @@ def ggTr(x,y):
     
 for line in open("ggtbeispiele.txt","r"):
     x,y,ergebnis = line.split(" ")
-    if(ggTr(x,y) == ergebnis):
+    ergebnis,leer = ergebnis.split("\n")
+    if(ggTr(int(x),int(y)) == int(ergebnis)):
          print(ergebnis)
     else:
         print("Diese Zeile ist falsch " ,line)
-        print(" und das das richtige: ",ggTr(x,y))
+        print("und das das richtige: ",ggTr(int(x),int(y)))
     
     
